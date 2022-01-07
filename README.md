@@ -56,8 +56,8 @@ jobs:
 
 ## Notes
 
-Use `@v1` for the latest stable release. Use `@main` for the latest
-version directly from the `main` branch.
+Use `@v1` for the latest stable release. Use `@latest` for the latest
+version directly from the default development branch.
 
 Note that the linter script does not trigger `wmlscope` or perform
 spellchecking due to false positives that can fail the workflow.
