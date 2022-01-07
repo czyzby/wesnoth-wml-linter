@@ -1,7 +1,7 @@
 FROM python:3.10
 
-RUN apt-get update && \
-    apt-get upgrade -y && \
+RUN apt-get update >/dev/null && \
+    apt-get upgrade -y >/dev/null && \
     apt-get install -y git
 
 RUN git clone \
@@ -9,8 +9,8 @@ RUN git clone \
     --filter=blob:none \
     --sparse \
     https://github.com/wesnoth/wesnoth \
-    /data/wesnoth
-WORKDIR /data/wesnoth
+    /wesnoth
+WORKDIR /wesnoth
 RUN git sparse-checkout set data/tools
 
 COPY entrypoint.sh /entrypoint.sh
