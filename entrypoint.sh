@@ -1,4 +1,6 @@
-#!/bin/bash -i
+#!/bin/bash
+
+set -m
 
 echo "Running wmllint."
 lint=$(python data/tools/wmllint -d . 2>&1 | tee /dev/stdout)
