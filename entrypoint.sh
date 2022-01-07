@@ -3,7 +3,7 @@
 set -m
 
 echo "Running wmllint."
-lint=$(python /data/wesnoth/data/tools/wmllint -d . 2>&1)
+lint=$(python /data/wesnoth/data/tools/wmllint -d -S . 2>&1)
 printf "%s\n" "${lint[@]}" | tac
 
 echo "Running wmlindent."
