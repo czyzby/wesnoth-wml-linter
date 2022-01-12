@@ -26,7 +26,7 @@ name: lint
 on: [push, pull_request]
 
 jobs:
-  build:
+  lint:
     runs-on: ubuntu-latest
 
     steps:
@@ -49,7 +49,7 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
+  lint:
     runs-on: ubuntu-latest
 
     steps:
