@@ -11,9 +11,12 @@ Add a workflow that triggers this action. For more info, see
 the following examples of GitHub workflows.
 
 The Wesnoth version that the WML files are checked against can
-be specified with the `WESNOTH_VERSION` environment variable.
-It can match any Wesnoth [branch](https://github.com/wesnoth/wesnoth/branches)
+be specified with the `wesnoth-version` parameter. It can match
+any Wesnoth [branch](https://github.com/wesnoth/wesnoth/branches)
 or [tag](https://github.com/wesnoth/wesnoth/tags).
+
+The folder or file that should be validated can be specified with
+the `path` parameter.
 
 ### Examples
 
@@ -32,12 +35,12 @@ jobs:
     steps:
     - name: Repository checkout
       uses: actions/checkout@v2
-    - name: WML Lint
+    - name: Lint WML
       uses: czyzby/wesnoth-wml-linter@v1
 ```
 
-A workflow that verifies WML files against Wesnoth 1.16 tools
-on every push or pull request to a specific branch:
+A workflow that verifies WML files in the `units/` folder against
+Wesnoth 1.16 tools on every push or pull request to a specific branch:
 
 ```yaml
 name: lint
@@ -55,10 +58,11 @@ jobs:
     steps:
     - name: Repository checkout
       uses: actions/checkout@v2
-    - name: WML Lint
+    - name: Lint WML
       uses: czyzby/wesnoth-wml-linter@v1
-      env:
-        WESNOTH_VERSION: 1.16
+      with:
+        path: units/
+        wesnoth-version: 1.16
 ```
 
 ## Notes

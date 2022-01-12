@@ -1,5 +1,17 @@
 name: 'WML Linter'
 description: 'Runs wmllint and wmlindent to verify the WML files.'
+inputs:
+  path:
+    description: 'Path to file or directory that should be validated.'
+    required: true
+    default: .
+  wesnoth-version:
+    description: 'Wesnoth repository branch or tag to check against.'
+    required: false
+    default: master
 runs:
   using: 'docker'
   image: 'Dockerfile'
+  args:
+    - ${{ inputs.path }}
+    - ${{ inputs.wesnoth-version }}
