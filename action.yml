@@ -3,3 +3,5 @@ description: 'Runs wmllint and wmlindent to verify the WML files.'
 runs:
   using: 'docker'
   image: 'Dockerfile'
+  env:
+    WESNOTH_VERSION: master
