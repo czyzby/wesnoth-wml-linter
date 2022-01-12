@@ -13,7 +13,7 @@ RUN echo "Cloning Wesnoth ${WESNOTH_VERSION:-master}." && \
     https://github.com/wesnoth/wesnoth \
     /wesnoth
 WORKDIR /wesnoth
-RUN git sparse-checkout set data/tools/wmllint data/tools/wmlindent
+RUN git sparse-checkout set data/tools/
 
 COPY entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
