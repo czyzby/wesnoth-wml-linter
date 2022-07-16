@@ -9,7 +9,7 @@ git clone \
     -c advice.detachedHead=false \
     https://github.com/wesnoth/wesnoth \
     /wesnoth
-(cd /wesnoth && git sparse-checkout set data/tools/)
+(cd /wesnoth && git sparse-checkout set data/tools/ data/core/units/ data/core/macros/)
 
 # Capturing Python script stdout.
 exec 5>&1

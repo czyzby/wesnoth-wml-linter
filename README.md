@@ -70,5 +70,5 @@ jobs:
 Use `@v1` for the latest stable release. Use `@latest` for the latest
 version directly from the default development branch.
 
-Note that the linter script does not trigger `wmlscope` or perform
+Note that the linter script does not trigger `wmlscope` and omits
 spellchecking due to false positives that can fail the workflow.
