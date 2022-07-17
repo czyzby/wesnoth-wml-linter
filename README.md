@@ -16,7 +16,16 @@ any Wesnoth [branch](https://github.com/wesnoth/wesnoth/branches)
 or [tag](https://github.com/wesnoth/wesnoth/tags).
 
 The folder or file that should be validated can be specified with
-the `path` parameter.
+the `path` parameter. Lists of directories or files separated by
+spaces should also be accepted by most versions of the Wesnoth tools.
+
+The `spellcheck` boolean parameter allows to turn on spellchecking
+with `hunspell` against the `en-US` locale. Spellchecking is turned
+off by default.
+
+The `lint-flags` and `indent-flags` allow specifying additional
+command line flags passed to the `wmllint` and `wmlindent` tools
+respectively.
 
 ### Examples
 
@@ -40,7 +49,9 @@ jobs:
 ```
 
 A workflow that verifies WML files in the `units/` folder against
-Wesnoth 1.16 tools on every push or pull request to a specific branch:
+Wesnoth 1.16 tools on every push or pull request to a specific branch
+with spellchecking and a `-K` flag that causes `wmllint` to ignore
+certain warnings:
 
 ```yaml
 name: lint
@@ -63,6 +74,8 @@ jobs:
       with:
         path: units/
         wesnoth-version: 1.16
+        spellcheck: true
+        lint-flags: -K
 ```
 
 ## Notes
@@ -70,5 +83,6 @@ jobs:
 Use `@v1` for the latest stable release. Use `@latest` for the latest
 version directly from the default development branch.
 
-Note that the linter script does not trigger `wmlscope` and omits
-spellchecking due to false positives that can fail the workflow.
+Note that the linter script currently does not trigger the `wmlscope`
+tool as it requires cloning the entire Wesnoth repository (and possibly
+external add-ons) to correctly flag missing resources.

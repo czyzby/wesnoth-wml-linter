@@ -9,9 +9,24 @@ inputs:
     description: 'Wesnoth repository branch or tag to check against.'
     required: false
     default: master
+  spellcheck:
+    description: 'If set to true, hunspell will be used to perform spellchecking.'
+    required: false
+    default: false
+  lint-flags:
+    description: 'List of additional flags passed to the wmllint tool.'
+    required: false
+    default:
+  indent-flags:
+    description: 'List of additional flags passed to the wmlindent tool.'
+    required: false
+    default:
 runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
     - ${{ inputs.path }}
     - ${{ inputs.wesnoth-version }}
+    - ${{ inputs.spellcheck }}
+    - ${{ inputs.lint-flags }}
+    - ${{ inputs.indent-flags }}
