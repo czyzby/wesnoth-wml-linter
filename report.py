@@ -10,26 +10,32 @@ SPELLCHECK_PATTERN = re.compile(r'"(.*)", line \d+: possible misspelling')
 
 
 def get_file_name(
-    output_line: str, pattern: Pattern = FILE_NAME_PATTERN
+    output_line: str,
+    include: Pattern = FILE_NAME_PATTERN,
+    exclude: Optional[Pattern] = None,
 ) -> Optional[str]:
-    match = pattern.search(output_line)
+    if exclude and exclude.search(output_line):
+        return None
+    match = include.search(output_line)
     return next(filter(None, match.groups())) if match else None
 
 
 def get_list_of_files_from_linter_output(
-    output: str, pattern: Pattern = FILE_NAME_PATTERN
+    output: str, include: Pattern = FILE_NAME_PATTERN, exclude: Optional[Pattern] = None
 ) -> Set[str]:
     return {
         file if not file.startswith("./") else file[2:]
         for line in output.split("\n")
-        if (file := get_file_name(line, pattern))
+        if (file := get_file_name(line, include, exclude))
         and not file.startswith(ROOT_WESNOTH_FOLDER)
     }
 
 
-def verify_cached_tool_outputs() -> bool:
+def report_on_cached_tool_outputs() -> None:
     lint_output = os.environ["lint"]
-    files_with_issues = get_list_of_files_from_linter_output(lint_output)
+    files_with_issues = get_list_of_files_from_linter_output(
+        lint_output, exclude=SPELLCHECK_PATTERN
+    )
     if files_with_issues:
         print("\nThe following files have syntax issues reported by wmllint:")
         list(map(print, sorted(files_with_issues)))
@@ -40,17 +46,13 @@ def verify_cached_tool_outputs() -> bool:
         print("\nThe following files have formatting issues reported by wmlindent:")
         list(map(print, sorted(unformatted_files)))
 
-    spellcheck_output = os.environ["spellcheck"]
     files_with_typos = get_list_of_files_from_linter_output(
-        spellcheck_output, pattern=SPELLCHECK_PATTERN
+        lint_output, include=SPELLCHECK_PATTERN
     )
     if files_with_typos:
         print("\nThe following files have possible misspellings reported by hunspell:")
         list(map(print, sorted(files_with_typos)))
 
-    return bool(files_with_issues or unformatted_files or files_with_typos)
-
 
 if __name__ == "__main__":
-    are_files_invalid = verify_cached_tool_outputs()
-    exit(are_files_invalid)
+    report_on_cached_tool_outputs()

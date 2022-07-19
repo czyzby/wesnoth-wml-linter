@@ -16,7 +16,8 @@ any Wesnoth [branch](https://github.com/wesnoth/wesnoth/branches)
 or [tag](https://github.com/wesnoth/wesnoth/tags).
 
 The folder or file that should be validated can be specified with
-the `path` parameter. Lists of directories or files separated by
+the `path` parameter. By default, all WML files within the project
+will be verified. Note that lists of directories or files separated by
 spaces should also be accepted by most versions of the Wesnoth tools.
 
 The `spellcheck` boolean parameter allows to turn on spellchecking
@@ -25,7 +26,8 @@ off by default.
 
 The `lint-flags` and `indent-flags` allow specifying additional
 command line flags passed to the `wmllint` and `wmlindent` tools
-respectively.
+respectively. See the `wmllint` and `wmlindent` documentation for
+a complete list of supported flags.
 
 ### Examples
 
@@ -83,6 +85,9 @@ jobs:
 Use `@v1` for the latest stable release. Use `@latest` for the latest
 version directly from the default development branch.
 
-Note that the linter script currently does not trigger the `wmlscope`
-tool as it requires cloning the entire Wesnoth repository (and possibly
-external add-ons) to correctly flag missing resources.
+### See also
+
+* [`czyzby/wesnoth-png-optimizer`](https://github.com/czyzby/wesnoth-png-optimizer):
+a GitHub Action that verifies if PNG images are optimized with `woptipng`.
+* [`czyzby/wesnoth-wml-scope`](https://github.com/czyzby/wesnoth-wml-scope):
+a GitHub Action that verifies project resources with `wmlscope`.

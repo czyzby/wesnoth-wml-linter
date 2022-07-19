@@ -1,38 +1,46 @@
 #!/bin/bash -l
 
-echo "Cloning Wesnoth ${2:-master}."
+branch="${2:-master}"
+echo "Cloning Wesnoth $branch."
 git clone \
     --depth 1 \
     --filter=blob:none \
     --sparse \
-    --single-branch --branch ${2:-master} \
+    --single-branch --branch $branch \
     -c advice.detachedHead=false \
     https://github.com/wesnoth/wesnoth \
     /wesnoth
 (cd /wesnoth && git sparse-checkout set data/tools/ data/core/**/*.cfg)
+echo "Wesnoth repository is ready."
 
 # Capturing Python script stdout.
 exec 5>&1
 
+if [[ "$3" = true ]]; then
+    spellcheck=""
+else
+    spellcheck="-S"
+fi
+
 echo
 echo "Running wmllint..."
-export lint=$(python /wesnoth/data/tools/wmllint $4 -d -S /wesnoth/data/core/ $1 2>&1 | tee >(cat - >&5))
+export lint=$(
+    python /wesnoth/data/tools/wmllint $4 -d $spellcheck /wesnoth/data/core/ $1 2>&1 | \
+    grep --line-buffered '^"[^/].*", line.*$' | \
+    tee >(cat - >&5)
+)
 
 echo
 echo "Running wmlindent..."
-export indent=$(python /wesnoth/data/tools/wmlindent $5 -d $1 2>&1 | tee >(cat - >&5))
+export indent=$(
+    python /wesnoth/data/tools/wmlindent $5 -d $1 2>&1 | \
+    grep --line-buffered '^wmlindent: "[^/].*", line.*$' | \
+    tee >(cat - >&5)
+)
 
-if [[ "$3" = true ]]; then
-    echo
-    echo "Running wmllint with spellcheck..."
-    export spellcheck=$(python /wesnoth/data/tools/wmllint -d -K -m $1 2>&1 | tee >(cat - >&5))
-else
-    export spellcheck=""
-fi
+python /report.py
 
-python /verify.py
-
-if [[ $? -eq 0 ]]; then
+if [[ -z $lint && -z $indent ]]; then
     echo
     echo "No issues found by wmllint and wmlindent within the project."
     exit 0

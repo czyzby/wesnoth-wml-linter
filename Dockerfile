@@ -6,6 +6,6 @@ RUN apt-get update >/dev/null && \
 
 RUN pip install pyenchant~=3.0
 
-COPY verify.py /verify.py
+COPY report.py /report.py
 COPY entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
