@@ -1,8 +1,9 @@
-# WML Linter / Indenter
+# WML Linter
 
 A GitHub Action for [Wesnoth](https://www.wesnoth.org/) add-ons.
-Verifies WML files using the WML tools (`wmllint` and `wmlindent`)
-from a partially cloned [Wesnoth repository](https://github.com/wesnoth/wesnoth).
+Verifies format, spelling errors and indentation in WML files using
+the official WML tools such as `wmllint` and `wmlindent` from
+a partially cloned [Wesnoth repository](https://github.com/wesnoth/wesnoth).
 
 ## Usage
 
@@ -21,15 +22,13 @@ will be verified. Note that lists of directories or files separated by
 spaces should also be accepted by most versions of the Wesnoth tools.
 
 The `spellcheck` boolean parameter allows `wmllint` to perform
-spellchecking with `hunspell` against the `en-US` locale. Spellchecking
-is turned off by default.
+spellchecking with `hunspell` against the `en-US` locale.
+Note that spellchecking is turned off by default.
 
 The `lint-flags` and `indent-flags` allow specifying additional
 command line flags passed to the `wmllint` and `wmlindent` tools
-respectively. See the `wmllint` and `wmlindent` documentation for
-a complete list of supported flags (found both in their respective
-header comments, and on the [Maintenance tools](https://wiki.wesnoth.org/Maintenance_tools)
-page on the [Wesnoth wiki](https://wiki.wesnoth.org/StartingPoints)).
+respectively. See the [maintenance tools](https://wiki.wesnoth.org/Maintenance_tools)
+documentation for a complete list of supported flags.
 
 ### Examples
 
