@@ -46,7 +46,7 @@ jobs:
 
     steps:
     - name: Repository checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
     - name: Lint WML
       uses: czyzby/wesnoth-wml-linter@v1
 ```
@@ -71,7 +71,7 @@ jobs:
 
     steps:
     - name: Repository checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
     - name: Lint WML
       uses: czyzby/wesnoth-wml-linter@v1
       with:
@@ -79,6 +79,30 @@ jobs:
         wesnoth-version: 1.16
         spellcheck: true
         lint-flags: -K
+```
+
+Some checks in `wmllint` expect that UMC projects are nested under
+the `data/add-ons` directory. Depending on where the project is stored,
+`wmllint` might yield a different set of warnings. This is an example
+of a workflow that checks out the repository to `add-ons/` directory
+to explicitly mark a UMC campaign:
+
+```yaml
+name: lint
+
+on: [push, pull_request]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Repository checkout
+      uses: actions/checkout@v4
+      with:
+        path: add-ons
+    - name: Lint WML
+      uses: czyzby/wesnoth-wml-linter@v1
 ```
 
 ## Notes
